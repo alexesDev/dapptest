@@ -10,6 +10,9 @@ git:
       beforeSetup:
         - package.json
         - yarn.lock
+      setup:
+        - src
+        - public
 shell:
   beforeSetup:
     - cd app && yarn

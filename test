@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo 'console.log("test")' >> app1/src/index.js
+git commit -am 'update'
+time docker build -t app1 -f app1/Dockerfile app1
+
+echo 'console.log("test")' >> app1/src/index.js
+git commit -am 'update'
+time dapp dimg build
