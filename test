@@ -1,10 +1,6 @@
 #!/bin/sh
 
 echo 'console.log("test")' >> app1/src/index.js
-echo 'console.log("test2")' >> app2/src/index.js
-echo 'console.log("test3")' >> app3/src/index.js
-echo 'console.log("test4")' >> app4/src/index.js
-echo 'console.log("test5")' >> app5/src/index.js
 git commit -am 'update'
 time (docker build -t app1 -f app1/Dockerfile app1 && \
       docker build -t app2 -f app2/Dockerfile app2 && \
