@@ -12,9 +12,9 @@ git:
         - yarn.lock
 shell:
   beforeSetup:
-    - yarn
+    - cd app && yarn
   setup:
-    - yarn build
+    - cd /app && yarn build
 
 ---
 dimg: app1
