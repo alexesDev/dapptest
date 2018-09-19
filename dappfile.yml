@@ -1,7 +1,8 @@
-artifact: app1-build
+{{ range $item := list "1" "2" "3" "4" "5" }}
+artifact: app{{ $item }}-build
 from: node:10.8-alpine
 git:
-  - add: /app1
+  - add: /app{{ $item }}
     to: /app
     excludePaths:
       - node_modules
@@ -20,132 +21,12 @@ shell:
     - cd /app && yarn build
 
 ---
-dimg: app1
+dimg: app{{ $item }}
 from: nginx:1.15.2-alpine
 import:
-  - artifact: app1-build
+  - artifact: app{{ $item }}-build
     add: /app/build
     to: /usr/share/nginx/html
     after: install
 ---
-artifact: app2-build
-from: node:10.8-alpine
-git:
-  - add: /app2
-    to: /app
-    excludePaths:
-      - node_modules
-      - build
-    stageDependencies:
-      beforeSetup:
-        - package.json
-        - yarn.lock
-      setup:
-        - src
-        - public
-shell:
-  beforeSetup:
-    - cd app && yarn
-  setup:
-    - cd /app && yarn build
-
----
-dimg: app2
-from: nginx:1.15.2-alpine
-import:
-  - artifact: app2-build
-    add: /app/build
-    to: /usr/share/nginx/html
-    after: install
----
-artifact: app3-build
-from: node:10.8-alpine
-git:
-  - add: /app3
-    to: /app
-    excludePaths:
-      - node_modules
-      - build
-    stageDependencies:
-      beforeSetup:
-        - package.json
-        - yarn.lock
-      setup:
-        - src
-        - public
-shell:
-  beforeSetup:
-    - cd app && yarn
-  setup:
-    - cd /app && yarn build
-
----
-dimg: app3
-from: nginx:1.15.2-alpine
-import:
-  - artifact: app3-build
-    add: /app/build
-    to: /usr/share/nginx/html
-    after: install
-
----
-artifact: app4-build
-from: node:10.8-alpine
-git:
-  - add: /app4
-    to: /app
-    excludePaths:
-      - node_modules
-      - build
-    stageDependencies:
-      beforeSetup:
-        - package.json
-        - yarn.lock
-      setup:
-        - src
-        - public
-shell:
-  beforeSetup:
-    - cd app && yarn
-  setup:
-    - cd /app && yarn build
-
----
-dimg: app4
-from: nginx:1.15.2-alpine
-import:
-  - artifact: app4-build
-    add: /app/build
-    to: /usr/share/nginx/html
-    after: install
-
----
-artifact: app5-build
-from: node:10.8-alpine
-git:
-  - add: /app5
-    to: /app
-    excludePaths:
-      - node_modules
-      - build
-    stageDependencies:
-      beforeSetup:
-        - package.json
-        - yarn.lock
-      setup:
-        - src
-        - public
-shell:
-  beforeSetup:
-    - cd app && yarn
-  setup:
-    - cd /app && yarn build
-
----
-dimg: app5
-from: nginx:1.15.2-alpine
-import:
-  - artifact: app5-build
-    add: /app/build
-    to: /usr/share/nginx/html
-    after: install
+{{ end }}
