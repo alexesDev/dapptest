@@ -1,0 +1,26 @@
+artifact: app1-build
+from: node:10.8-alpine
+git:
+  - add: /app1
+    to: /app
+    excludePaths:
+      - node_modules
+      - build
+    stageDependencies:
+      beforeSetup:
+        - package.json
+        - yarn.lock
+shell:
+  beforeSetup:
+    - yarn
+  setup:
+    - yarn build
+
+---
+dimg: app1
+from: nginx:1.15.2-alpine
+import:
+  - artifact: app1-build
+    add: /app/build
+    to: /usr/share/nginx/html
+    after: install
